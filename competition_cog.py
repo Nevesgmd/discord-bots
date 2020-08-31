@@ -3,7 +3,7 @@ from json import load
 from loguru import logger
 
 
-class CompetitionBot(commands.Cog):
+class CompetitionCog(commands.Cog):
     def __init__(self, bot):
         self.__bot = bot
         self.__competitions = dict()
@@ -43,12 +43,3 @@ class CompetitionBot(commands.Cog):
     async def get_comp_values(self, ctx):
         await ctx.send(f'{self.__competitions}')
         logger.debug(f'{self.__competitions}')
-
-
-discord_bot = commands.Bot(command_prefix='')
-discord_bot.add_cog(CompetitionBot(discord_bot))
-
-with open('.globalresources.json') as global_resources:
-    token = load(global_resources)['token']
-
-discord_bot.run(token)
