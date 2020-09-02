@@ -20,12 +20,12 @@ class CompetitionCog(commands.Cog):
 
     @commands.command(aliases=['players'])
     async def add_players(self, ctx, comp_name, *players):
-        try:
+        if comp_name in self.__competitions:
             for player in players:
                 self.__competitions[comp_name][player] = 0
                 await ctx.send(f"--> **{player}** added to competition **{comp_name}**.")
                 logger.debug(f'{player} added to competition {comp_name}')
-        except KeyError:
+        else:
             await ctx.send(f"!!--- The **{comp_name}** competition doesn't exist. ---!!")
             logger.debug(f'Trying to add players to an inexistent competition.')
 

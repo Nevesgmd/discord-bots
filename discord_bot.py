@@ -1,4 +1,4 @@
-from competition_cog import CompetitionCog
+from cogs.competition_cog import CompetitionCog
 from discord.ext import commands
 from json import load
 
