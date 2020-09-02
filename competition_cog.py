@@ -39,6 +39,20 @@ class CompetitionCog(commands.Cog):
             logger.debug(f'Incorrect points parameter value on add_points()')
             await ctx.send(f'!!--- **Points** must be numeric ---!!')
 
+    @commands.command(aliases=['rank'])
+    async def ranking(self, ctx, comp):
+        logger.debug('Ranking function called.')
+        if comp in self.__competitions:
+            await ctx.send(f'======== **{comp}** ========')
+            rank = 1
+            for player, points in sorted(self.__competitions[comp].items(), key=lambda x: x[1], reverse=True):
+                await ctx.send(f'--> **{rank}.**   {player} - {points} points')
+                rank += 1
+            await ctx.send('================' + len(comp) * '=')
+        else:
+            await ctx.send(f"!!--- The **{comp}** competition doesn't exist. ---!!")
+            logger.debug(f'Trying to show ranking of an inexistent competition.')
+
     @commands.command(aliases=['get'])
     async def get_comp_values(self, ctx):
         await ctx.send(f'{self.__competitions}')
