@@ -1,5 +1,4 @@
 from discord.ext import commands
-from json import load
 from loguru import logger
 
 
