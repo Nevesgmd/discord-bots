@@ -78,8 +78,3 @@ class CompetitionCog(commands.Cog):
         else:
             await ctx.send(f"!!--- The **{comp}** competition doesn't exist. ---!!")
             logger.debug(f'Trying to show ranking of an inexistent competition.')
-
-    @commands.command(aliases=['get'])
-    async def get_comp_values(self, ctx):
-        await ctx.send(f'{self.__competitions}')
-        logger.debug(f'{self.__competitions}')
