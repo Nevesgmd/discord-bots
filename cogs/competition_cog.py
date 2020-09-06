@@ -1,5 +1,4 @@
 from discord.ext import commands
-from json import load
 from loguru import logger
 
 
@@ -14,12 +13,25 @@ class CompetitionCog(commands.Cog):
 
     @commands.command(aliases=['comp', 'create'])
     async def competition(self, ctx, *, comp_name):
+        """
+        Creates the competition
+        :param ctx: context (default discord.py parameter)
+        :param comp_name: name of the competition
+        :return: None
+        """
         logger.debug('Competition function was called.')
         self.__competitions[comp_name] = {}
         await ctx.send(f'-----> **{comp_name}** competition was created! <-----')
 
     @commands.command(aliases=['players'])
     async def add_players(self, ctx, comp_name, *players):
+        """
+        Add players to an existent competition
+        :param ctx: context (default discord.py parameter)
+        :param comp_name: name of the competition
+        :param players: player names (one or more)
+        :return: None
+        """
         if comp_name in self.__competitions:
             for player in players:
                 self.__competitions[comp_name][player] = 0
@@ -31,6 +43,14 @@ class CompetitionCog(commands.Cog):
 
     @commands.command(aliases=['add', 'points'])
     async def add_points(self, ctx, comp, player, points):
+        """
+        Add points to a player in a competition
+        :param ctx: context (default discord.py parameter)
+        :param comp: name of the competition
+        :param player: name of the player
+        :param points: number of points to be added
+        :return: None
+        """
         try:
             self.__competitions[comp][player] += int(points)
             logger.debug(f'{points} points added to {player}!')
@@ -41,6 +61,12 @@ class CompetitionCog(commands.Cog):
 
     @commands.command(aliases=['rank'])
     async def ranking(self, ctx, comp):
+        """
+        Show ranking of a existent competition
+        :param ctx: context (default discord.py parameter)
+        :param comp: name of the competition
+        :return: None
+        """
         logger.debug('Ranking function called.')
         if comp in self.__competitions:
             await ctx.send(f'======== **{comp}** ========')
