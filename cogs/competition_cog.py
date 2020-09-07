@@ -11,6 +11,10 @@ class CompetitionCog(commands.Cog):
     async def on_ready(self):
         logger.debug('Bot is running!')
 
+    @commands.Cog.listener()
+    async def on_command_error(self, ctx, error):
+        await ctx.send(f'--! Error when executing a command !--')
+
     @commands.command(aliases=['comp', 'create'])
     async def competition(self, ctx, *, comp_name):
         """
