@@ -13,7 +13,8 @@ class CompetitionCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        await ctx.send(f'--! Error when executing a command !--')
+        await ctx.send(f'Error: {error}')
+        await ctx.send(f'Type **examples** or **help** to get more information.')
 
     @commands.command(aliases=['comp', 'create'])
     async def competition(self, ctx, *, comp_name):
@@ -82,3 +83,11 @@ class CompetitionCog(commands.Cog):
         else:
             await ctx.send(f"!!--- The **{comp}** competition doesn't exist. ---!!")
             logger.debug(f'Trying to show ranking of an inexistent competition.')
+
+    @commands.command(aliases=['ex'])
+    async def examples(self, ctx):
+        await ctx.send('**Examples:**')
+        await ctx.send('--> !comp competition_name')
+        await ctx.send('--> !players competition_name player1 player2 player3')
+        await ctx.send('--> !add competition_name player_name points')
+        await ctx.send('--> !rank competition_name')
