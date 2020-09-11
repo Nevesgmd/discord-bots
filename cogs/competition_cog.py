@@ -17,47 +17,48 @@ class CompetitionCog(commands.Cog):
         await ctx.send(f'Type **examples** or **help** to get more information.')
 
     @commands.command(aliases=['comp', 'create'])
-    async def competition(self, ctx, *, comp_name):
+    async def competition(self, ctx, *, competition_name):
         """
         Creates the competition
-        :param ctx: context (default discord.py parameter)
-        :param comp_name: name of the competition
-        :return: None
+
+        Practical examples:
+        !comp ConnectFour
+        !create MunchkinCompetition
+        !competition CheckersLeague
         """
         logger.debug('Competition function was called.')
-        self.__competitions[comp_name] = {}
-        await ctx.send(f'-----> **{comp_name}** competition was created! <-----')
+        self.__competitions[competition_name] = {}
+        await ctx.send(f'-----> **{competition_name}** competition was created! <-----')
 
     @commands.command(aliases=['players'])
-    async def add_players(self, ctx, comp_name, *players):
+    async def add_players(self, ctx, competition_name, *players):
         """
         Add players to an existent competition
-        :param ctx: context (default discord.py parameter)
-        :param comp_name: name of the competition
-        :param players: player names (one or more)
-        :return: None
+
+        Practical examples:
+        !players ConnectFour Stewie2K Fallen
+        !add_players Coldzera
         """
-        if comp_name in self.__competitions:
+        if competition_name in self.__competitions:
             for player in players:
-                self.__competitions[comp_name][player] = 0
-                await ctx.send(f"--> **{player}** added to competition **{comp_name}**.")
-                logger.debug(f'{player} added to competition {comp_name}')
+                self.__competitions[competition_name][player] = 0
+                await ctx.send(f"--> **{player}** added to competition **{competition_name}**.")
+                logger.debug(f'{player} added to competition {competition_name}')
         else:
-            await ctx.send(f"!!--- The **{comp_name}** competition doesn't exist. ---!!")
+            await ctx.send(f"!!--- The **{competition_name}** competition doesn't exist. ---!!")
             logger.debug(f'Trying to add players to an inexistent competition.')
 
     @commands.command(aliases=['add', 'points'])
-    async def add_points(self, ctx, comp, player, points):
+    async def add_points(self, ctx, competition_name, player, points):
         """
         Add points to a player in a competition
-        :param ctx: context (default discord.py parameter)
-        :param comp: name of the competition
-        :param player: name of the player
-        :param points: number of points to be added
-        :return: None
+
+        Practical examples:
+        !add MunchkinCompetition Nevesgmd 80
+        !add_points MunchkinCompetition brTT 75
         """
         try:
-            self.__competitions[comp][player] += int(points)
+            self.__competitions[competition_name][player] += int(points)
             logger.debug(f'{points} points added to {player}!')
             await ctx.send(f'--> **{points}** points added to {player}!')
         except ValueError:
@@ -65,29 +66,23 @@ class CompetitionCog(commands.Cog):
             await ctx.send(f'!!--- **Points** must be numeric ---!!')
 
     @commands.command(aliases=['rank'])
-    async def ranking(self, ctx, comp):
+    async def ranking(self, ctx, competition_name):
         """
         Show ranking of a existent competition
-        :param ctx: context (default discord.py parameter)
-        :param comp: name of the competition
-        :return: None
+
+        Practical examples:
+        !rank CheckersLeague
+        !ranking CheckersLeague
         """
         logger.debug('Ranking function called.')
-        if comp in self.__competitions:
-            await ctx.send(f'======== **{comp}** ========')
+        if competition_name in self.__competitions:
+            await ctx.send(f'======== **{competition_name}** ========')
             rank = 1
-            for player, points in sorted(self.__competitions[comp].items(), key=lambda x: x[1], reverse=True):
+            for player, points in sorted(self.__competitions[competition_name].items(),
+                                         key=lambda x: x[1], reverse=True):
                 await ctx.send(f'--> **{rank}.**   {player} - {points} points')
                 rank += 1
-            await ctx.send('================' + len(comp) * '=')
+            await ctx.send('================' + len(competition_name) * '=')
         else:
-            await ctx.send(f"!!--- The **{comp}** competition doesn't exist. ---!!")
+            await ctx.send(f"!!--- The **{competition_name}** competition doesn't exist. ---!!")
             logger.debug(f'Trying to show ranking of an inexistent competition.')
-
-    @commands.command(aliases=['ex'])
-    async def examples(self, ctx):
-        await ctx.send('**Examples:**')
-        await ctx.send('--> !comp competition_name')
-        await ctx.send('--> !players competition_name player1 player2 player3')
-        await ctx.send('--> !add competition_name player_name points')
-        await ctx.send('--> !rank competition_name')
