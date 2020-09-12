@@ -26,7 +26,7 @@ This project was dockerized in order to make the running process easier, be sure
 After performing the defined procedures above and downloading/clonning all the files present in this repository, follow these steps:
 
 1. Access the project directory using the `terminal` (MacOS, Linux) or the `cmd` (Windows).
-2. Be sure that you have a *.globalresources.json* file with the discord API token in the main directory.
+2. Be sure that you have a **.globalresources.json** file with the discord API token in the main directory.
 2. Run the bot using docker-compose with the following command: `docker-compose up --build`
 
 <a name="license"></a>
